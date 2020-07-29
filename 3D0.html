@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D正方体</title>
+    <style>
+        body{
+            background-color: black;
+        }
+        .scene{
+            width: 500px;
+            height: 500px;
+            border: 2px double red;
+            margin: auto;
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            perspective: 1000px; /*场景景深*/
+        }
+        .item{
+            width: 200px;
+            height: 200px;
+            background-color: rgba(red, green, blue, 0.5);
+            transition: all 2s;
+            margin: 150px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: 2s;
+        }
+        /*transform: rotate3d(1,0,0,360deg);*/
+        .face{
+            width: 200px;
+            height: 200px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            box-shadow: 0 0 15px 15px white;
+            opacity: 0.5;
+        }
+        .face:nth-child(1){
+            background-color: red;
+            transform: translateX(-100px) rotateY(90deg);
+        }
+        .face:nth-child(2){
+            background-color: green;
+            transform: translateX(100px) rotateY(90deg);
+        }
+        .face:nth-child(3){
+            background-color: yellow;
+            transform: translateY(-100px) rotateX(90deg);
+        }
+        .face:nth-child(4){
+            background-color: blue;
+            transform: translateY(100px) rotateX(90deg);
+        }
+        .face:nth-child(5){
+            background-color: orangered;
+            transform: translateZ(-100px);
+        }
+        .face:nth-child(6){
+            background-color: rgb(255, 0, 179);
+            transform: translateZ(100px);
+        }
+    </style>
+</head>
+<body>
+<div class="scene">
+    <div class="item">
+        <div class="face"></div>
+        <div class="face"></div>
+        <div class="face"></div>
+        <div class="face"></div>
+        <div class="face"></div>
+        <div class="face"></div>
+    </div>
+    <div class="one" style="color: white; cursor: pointer">上</div>
+    <div class="two" style="color: white;cursor: pointer">下</div>
+    <div class="three" style="color: white; cursor: pointer">左</div>
+    <div class="four" style="color: white;cursor: pointer">右</div>
+</div>
+<script>
+    var one=document.querySelector(".one");
+    var two=document.querySelector(".two");
+    var three=document.querySelector(".three");
+    var four=document.querySelector(".four");
+    var item=document.querySelector(".item");
+    var a=90;
+    var b=90;
+    one.addEventListener("mousedown",function () {
+        item.style.transform="rotateX("+a+"deg)";
+        a=a+90;
+    })
+    two.addEventListener("mousedown",function () {
+        item.style.transform="rotateX("+(a-90)+"deg)";
+        a=a-90;
+    })
+    item.addEventListener("mousedown",function (ev1) {
+        var x1=ev1.screenY;
+        item.onmouseup=function (ev2) {
+            var x2=ev2.screenY;
+            if(x2-x1>0){
+                item.style.transform="rotateX("+(a-90)+"deg)";
+                a=a-90;
+            }
+            if(x2-x1<0){
+                item.style.transform="rotateX("+a+"deg)";
+                a=a+90;
+            }
+        }
+    })
+
+    three.addEventListener("mousedown",function () {
+        item.style.transform="rotateY("+b+"deg)";
+        b=b+90;
+    })
+    four.addEventListener("mousedown",function () {
+        item.style.transform="rotateY("+(b-90)+"deg)";
+        b=b-90;
+    })
+
+    var t=setInterval(function () {
+        item.style.transform="rotateX("+a+"deg)";
+        a=a+90;
+    },2000)
+    item.onmouseover=function () {
+        clearInterval(t);
+    }
+    // item.addEventListener("mousedown",function (ev3) {
+    //     var x3=ev3.screenX;
+    //     item.onmouseup=function (ev4) {
+    //         var x4=ev4.screenX;
+    //         if(x4-x3>0){
+    //             item.style.transform="rotateY("+b+"deg)";
+    //             b=b+90;
+    //         }
+    //         if(x4-x3<0){
+    //             item.style.transform="rotateY("+(b-90)+"deg)";
+    //             b=b-90;
+    //         }
+    //     }
+    // })
+</script>
+</body>
+</html>
